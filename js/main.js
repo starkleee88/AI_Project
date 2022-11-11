@@ -20,6 +20,8 @@ let _firepower = 0;
 let _x2damage = false;
 let _output;
 let _imgLoader;
+let x ;
+let y ;
 
 function clear() {
     _context.clearRect(0, 0, _canvas.width, _canvas.height);
@@ -181,7 +183,7 @@ function update() {
 	
     draw();
     if(mode == 'player2'){
-    	AI_calculation();
+    	AI_calculation(x, y);
     }
     
 }
@@ -236,11 +238,13 @@ function canvas_keyDown(e){
 		_cannons[_currentPlayer].canDoubleDamage = false;
 	}
 }
-function AI_calculation(){
+// function power_calculation(firepower){
+// 	_firepower = 
+// }
+function AI_calculation(x, y){
 	if(_currentPlayer>0){
 		if(_cannons[_currentPlayer-1].cx > _cannons[_currentPlayer].cx){
-			let x ;
-			let y ;
+			
 			if(_cannons[_currentPlayer].cx - _cannons[_currentPlayer-1].cx >= 50){
 				x = _cannons[_currentPlayer-1].cx;
 				y = _cannons[_currentPlayer-1].cy - 30;
@@ -258,16 +262,28 @@ function AI_calculation(){
 				return;
 			if(_ball.visible || _cannons[_currentPlayer].isFalling) // Nhận chuột trái
 				return;
-				_firepower = 30; // bắt đầu tăng thanh năng lượng
+				_firepower = (_cannons[_currentPlayer-1].cx - _cannons[_currentPlayer].cx) / (Math.sqrt(x*x + y*y) * 0.8); // bắt đầu tăng thanh năng lượng
+				if(_firepower >100){
+					_firepower = _firepower-100;
+				}
+				console.log(_firepower)
 			canvas_mouseup()
 			// canvas_mousedown()		
 		}
 		else{
-			console.log("Ben trai");
-			console.log(_cannons[_currentPlayer].cx - _cannons[_currentPlayer-1].cx)
+			console.log(x + ", " + y)
+			console.log(_cannons[_currentPlayer-1].cx +", "+ _cannons[_currentPlayer-1].cy)
+			console.log("Ben Phai")
+			console.log(_cannons[_currentPlayer-1].cx - _cannons[_currentPlayer].cx)
 
-			let x = _cannons[_currentPlayer-1].cx;
-			let y = _cannons[_currentPlayer-1].cy - 300;
+			if(_cannons[_currentPlayer-1].cx - _cannons[_currentPlayer].cx >= 50){
+				x = _cannons[_currentPlayer-1].cx;
+				y = _cannons[_currentPlayer-1].cy - 30;
+			}
+			else{
+				x = _cannons[_currentPlayer-1].cx;
+				y = _cannons[_currentPlayer-1].cy - 300;
+			}
 			_cannons[_currentPlayer].rotate(x,y);
 			if(_alivePlayers==1)
 				return;
@@ -277,6 +293,7 @@ function AI_calculation(){
 			canvas_mouseup()
 		}
 	}
+	AI_calculation(x, y);
 	
 }
 
