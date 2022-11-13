@@ -184,6 +184,7 @@ function update() {
     draw();
     if(mode == 'player2'){
     	AI_calculation(x, y);
+    	console.log(_firepower)
     }
     
 }
@@ -262,11 +263,20 @@ function AI_calculation(x, y){
 				return;
 			if(_ball.visible || _cannons[_currentPlayer].isFalling) // Nhận chuột trái
 				return;
-				_firepower = (_cannons[_currentPlayer-1].cx - _cannons[_currentPlayer].cx) / (Math.sqrt(x*x + y*y) * 0.8); // bắt đầu tăng thanh năng lượng
-				if(_firepower >100){
-					_firepower = _firepower-100;
-				}
-				console.log(_firepower)
+			switch(_cannons[_currentPlayer-1].cx- _cannons[_currentPlayer].cx){
+				case 10-100:
+					_firepower= 20;
+				case 100-200:
+					_firepower= 30;
+				case 200-300:
+					_firepower= 45;
+				default:
+					_firepower= 70;
+			}
+				
+			
+				
+			
 			canvas_mouseup()
 			// canvas_mousedown()		
 		}
@@ -289,11 +299,21 @@ function AI_calculation(x, y){
 				return;
 			if(_ball.visible || _cannons[_currentPlayer].isFalling) // Nhận chuột trái
 				return;
-				_firepower = 30; // bắt đầu tăng thanh năng lượng
+			switch(_cannons[_currentPlayer].cx- _cannons[_currentPlayer-1].cx){
+				case 10-100:
+					_firepower= 20;
+				case 100-200:
+					_firepower= 30;
+				case 200-300:
+					_firepower= 45;
+				default:
+					_firepower= 70;
+			}
 			canvas_mouseup()
 		}
+		AI_calculation(x, y);
 	}
-	AI_calculation(x, y);
+	
 	
 }
 
