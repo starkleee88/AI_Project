@@ -269,9 +269,11 @@ function AI_calculation(x, y){
 				case 100-200:
 					_firepower= 30;
 				case 200-300:
-					_firepower= 45;
+					_firepower= 40;
+				case 300-400:
+					_firepower= 50;
 				default:
-					_firepower= 70;
+					_firepower= 60;
 			}
 				
 			
@@ -313,7 +315,9 @@ function AI_calculation(x, y){
 		}
 		AI_calculation(x, y);
 	}
-	
+	else{
+		return;
+	}
 	
 }
 
